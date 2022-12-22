@@ -4,6 +4,7 @@
 %% Description: NTUA ECE Thesis class - simplified
 %%
 %% Sections:
+%% - Control Flow
 %% - Class info
 %% - Page sizes
 %% - Langauges
@@ -59,6 +60,12 @@
 \LoadClass[12pt, twoside, a4paper]{report}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Control Flow
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{etoolbox} % ifdefempty
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Page sizes
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -69,7 +76,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage[LGR, T1]{fontenc} % Set the font (output) encodings
-\RequirePackage[greek]{babel} % Greek and english
+\RequirePackage[greek, english]{babel} % Greek and english
 \RequirePackage{alphabeta}
 
 % typeset short english phrases
@@ -199,7 +206,8 @@
             \normalsize{Μ}\small{ΗΧΑΝΙΚΩΝ}
             \normalsize{Υ}\small{ΥΠΟΛΟΓΙΣΤΩΝ} \\
             \@thesissector \\
-            \@thesislab \\
+            % If lab is not defined don't show anything, else show the lab.
+            \ifdefempty{\@thesislab}{}{\@thesislab \\}
             \vspace{8ex}
             \large \textbf{\@title} \\
             \vspace{10ex}
@@ -285,7 +293,8 @@
         ΤΜΗΜΑ ΗΛΕΚΤΡΟΛΟΓΩΝ ΜΗΧΑΝΙΚΩΝ ΚΑΙ \\
         ΜΗΧΑΝΙΚΩΝ ΥΠΟΛΟΓΙΣΤΩΝ \\
         \@thesissector \\
-        \@thesislab
+        % If lab is not defined don't show anything, else show the lab.
+        \ifdefempty{\@thesislab}{}{\@thesislab \\}
     \end{minipage}
 
         \vspace{8ex}
