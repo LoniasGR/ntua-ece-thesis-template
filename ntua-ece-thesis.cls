@@ -366,22 +366,24 @@
 
     \vspace*{40ex}
     \begin{FlushLeft}
-    \
-    ................................... \\
-    \textbf{\@author} \\
-    Διπλωματούχος Ηλεκτρολόγος Μηχανικός και Μηχανικός Υπολογιστών Ε.Μ.Π. \\
+        \
+        ................................... \\
+        \textbf{\@author} \\
+        Διπλωματούχος Ηλεκτρολόγος Μηχανικός και Μηχανικός Υπολογιστών Ε.Μ.Π. \\
+        \vspace{30ex}
+        \small
+            \copyright \hspace{0.5em} \@author, \@submissionyear.\\
     \end{FlushLeft}
-    \vspace{30ex}
-    \small
-    \copyright \hspace{0.5em} \@author, \@submissionyear.\\
-    \vspace{5ex}
-    \begin{justify}
-    \ifnum \@license=0
-        \noindent \@creativecommons
 
-    \else
-        \noindent \@nonprofituse
-    \fi
+    \vspace{5ex}
+
+    \begin{justify}
+        \ifnum \@license=0
+            \noindent \@creativecommons
+
+        \else
+            \noindent \@nonprofituse
+        \fi
     \end{justify}
 
     \begin{justify}
