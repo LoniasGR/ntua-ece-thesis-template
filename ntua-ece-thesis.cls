@@ -364,7 +364,7 @@
 \newcommand{\copyrightspage}{%
     \thispagestyle{empty}
 
-    \vspace*{40ex}
+    \vspace*{35ex}
     \begin{FlushLeft}
         \
         ................................... \\
