@@ -4,15 +4,14 @@
 %% Description: NTUA ECE Thesis class - simplified
 %%
 %% Sections:
-%% - Control Flow
 %% - Class info
-%% - Page sizes
+%% - Text control
+%% - Math fonts
+%% - Control Flow
+%% - Page styles
 %% - Langauges
 %% - Images
 %% - Links
-%% - Text control
-%% - Page numbers
-%% - Math
 %% - Bibliography
 %% - Arguments
 %% - Title page
@@ -57,7 +56,23 @@
 \ProcessOptions\relax
 
 
-\LoadClass[12pt, twoside, a4paper]{report}
+\LoadClass[11pt, twoside, a4paper]{report}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Text control- ragged2e needs to be loaded first
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage[document]{ragged2e}
+\RequirePackage{csquotes}
+\RequirePackage{parskip}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Math Fonts - need to be loaded second
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Control Flow
@@ -66,21 +81,39 @@
 \RequirePackage{etoolbox} % ifdefempty
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Page sizes
+%% Page styles
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage[a4paper, total={15cm, 20cm}]{geometry}
+
+% https://latexref.xyz/_005craggedbottom.html
+\raggedbottom
+
+
+% Use Arabic numerals (1, 2, 3, etc.) for all pages.
+% The title page counts as page 1.
+\pagenumbering{arabic}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Languages
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\RequirePackage[LGR, T1]{fontenc} % Set the font (output) encodings
-\RequirePackage[greek, english]{babel} % Greek and english
+\RequirePackage[english, greek]{babel} % Greek and english
 \RequirePackage{alphabeta}
 
 % typeset short english phrases
 \newcommand{\en}[1]{\foreignlanguage{english}{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Fonts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage[LGR, T1]{fontenc} % Set the font (output) encodings
+
+\RequirePackage{substitutefont}
+
+% Serif
+\substitutefont{LGR}{\rmdefault}{artemisia}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Images
@@ -108,27 +141,6 @@
 
 \NewCommandCopy{\oldurl}{\url}
 \renewcommand{\url}[1]{\en{\oldurl{#1}}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Text control
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\RequirePackage[document]{ragged2e}
-\RequirePackage{parskip}
-\RequirePackage{csquotes}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Page numbers
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Use Arabic numerals (1, 2, 3, etc.) for all pages.The title page counts as page 1.
-\pagenumbering{arabic}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Math
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\RequirePackage{amsmath}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Bibliography
@@ -320,17 +332,17 @@
     \begin{center}
         \scriptsize
         \parbox[b]{0.3\textwidth} {\center
-            ........................................
+            ........................................\\
             \@firstexaminername\\
             \@firstexaminertitle
         }
         \parbox[b]{0.3\textwidth} {\center
-            ........................................
+            ........................................\\
             \@secondexaminername\\
             \@secondexaminertitle
         }
         \parbox[b]{0.3\textwidth} {\center
-            ........................................
+            ........................................\\
             \@thirdexaminername\\
             \@thirdexaminertitle
         }
@@ -371,8 +383,7 @@
         \textbf{\@author} \\
         Διπλωματούχος Ηλεκτρολόγος Μηχανικός και Μηχανικός Υπολογιστών Ε.Μ.Π. \\
         \vspace{30ex}
-        \small
-            \copyright \hspace{0.5em} \@author, \@submissionyear.\\
+        \small \copyright \hspace{0.5em} \@author, \@submissionyear.\\
     \end{FlushLeft}
 
     \vspace{5ex}
