@@ -1,10 +1,39 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %% Filename: ntua-ece-thesis.cls
 %% Description: NTUA ECE Thesis class - simplified
 %%
+%% Sections:
+%% - Class info
+%% - Page sizes
+%% - Langauges
+%% - Images
+%% - Links
+%% - Text control
+%% - Page numbers
+%% - Math
+%% - Bibliography
+%% - Arguments
+%% - Title page
+%% - Blank page
+%% - Examination page
+%% - Copyright page
 %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Class arguments:
+%% - LICENCE: "crerativecommons" (default) or "nonprofituse"
+%%      -"creativecommons" = CC licence
+%%      -"nonprofituse"    = Only non-profit use allowed
+%%
+%% - Bibliography Style: "apa" or "ieee" (default)
+%%      - "apa"     = "APA style references"
+%%      - "ieee"    = "IEEE style references"
+%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Class info
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \NeedsTeXFormat{LaTeX2e}
@@ -19,42 +48,45 @@
 \newcommand{\@license}{0}
 \DeclareOption{noprofituse}{\renewcommand{\@license}{1}}
 \DeclareOption{creativecommons}{\renewcommand{\@license}{0}}
+
+% Defining bibliography style
+\newcommand{\@bibstyle}{apa}
+\DeclareOption{apa}{\renewcommand{\@bibstyle}{apa}}
+\DeclareOption{ieee}{\renewcommand{\@bibstyle}{ieee}}
 \ProcessOptions\relax
+
 
 \LoadClass[12pt, twoside, a4paper]{report}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Page sizes
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage[a4paper, total={15cm, 20cm}]{geometry}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Languages
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\RequirePackage[english, greek]{babel} % Greek and english
-\RequirePackage[utf8]{inputenc}        % For utf8 characters
-
-% shortcuts for latin and greek text
-\newcommand{\tl}[1]{\textlatin{#1}}
-\newcommand{\tg}[1]{\textgreek{#1}}
+\RequirePackage[LGR, T1]{fontenc} % Set the font (output) encodings
+\RequirePackage[greek]{babel} % Greek and english
+\RequirePackage{alphabeta}
 
 % typeset short english phrases
 \newcommand{\en}[1]{\foreignlanguage{english}{#1}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Images
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage{graphicx} % Package for images
 
 % Set the \pyrforos command to return the image.
 \newcommand{\pyrforos}{logo/pyrforos.eps}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Links
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage{hyperref}
 \hypersetup{
@@ -70,16 +102,44 @@
 \NewCommandCopy{\oldurl}{\url}
 \renewcommand{\url}[1]{\en{\oldurl{#1}}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Text control
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage[document]{ragged2e}
 \RequirePackage{parskip}
+\RequirePackage{csquotes}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Page numbers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Use Arabic numerals (1, 2, 3, etc.) for all pages.The title page counts as page 1.
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Math
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{amsmath}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\RequirePackage[
+    backend=biber,    % Default liblatex backend
+    style=\@bibstyle, % Depending on the cls parameters
+    sorting=ynt,       % Year Name Title sorting
+    autolang=other    % Use babel for language selection on bibliography
+]{biblatex}
+
+\addbibresource{thesis.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Arguments
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Implementation from:
 % https://stackoverflow.com/questions/2833954/how-do-i-create-a-command-like-title-in-latex
@@ -118,16 +178,15 @@
 \newcommand\submissionyear[1]{\renewcommand\@submissionyear{#1}}
 \newcommand\@submissionyear{\ClassError{ntua-ece-thesis}{No \noexpand\submissionyear given}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Title Page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \renewcommand{\maketitle}%
 {
     \begin{titlepage}
         % Set the pagestyle to "empty"
         \thispagestyle{empty}
-        \addtocounter{page}{-1}
         \begin{center}
             \includegraphics[width=2.5cm]{\pyrforos}\\
             \Large{Ε}\large{ΘΝΙΚΟ}
@@ -164,19 +223,12 @@
     \end{titlepage}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Blank Page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Code from:
 % https://tex.stackexchange.com/questions/36880/insert-a-blank-page-after-current-page
-
-\newcommand{\blankpagenocount}{%
-      \clearpage%
-      \thispagestyle{empty}%
-      \addtocounter{page}{-1}%
-      \null%
-      \clearpage}
 
 \newcommand{\blankpagecount}{%
     \clearpage%
@@ -184,9 +236,9 @@
     \null%
     \clearpage}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Examination Page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Defence date
 \newcommand\thesisdefencedate[1]{\renewcommand\@thesisdefencedate{#1}}
@@ -218,7 +270,6 @@
 
 \newcommand{\examinationpage}{%
     \thispagestyle{empty}
-    \addtocounter{page}{-1}
 
     \begin{center}
     \begin{minipage}{0.2\textwidth}
@@ -280,9 +331,9 @@
     \newpage
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Copyrights Page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\@creativecommons}{%
 Η Εργασία διατίθεται με άδεια \en{Creative Commons} Αναφορά Δημιουργού 4.0 Διεθνές.
@@ -303,7 +354,6 @@
 
 \newcommand{\copyrightspage}{%
     \thispagestyle{empty}
-    \addtocounter{page}{-1}
 
     \vspace*{40ex}
     \begin{FlushLeft}
