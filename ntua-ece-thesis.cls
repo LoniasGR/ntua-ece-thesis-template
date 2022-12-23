@@ -26,8 +26,13 @@
 %%      -"nonprofituse"    = Only non-profit use allowed
 %%
 %% - Bibliography Style: "apa" or "ieee" (default)
-%%      - "apa"     = "APA style references"
-%%      - "ieee"    = "IEEE style references"
+%%      - "apa"     = APA style references
+%%      - "ieee"    = IEEE style references
+%%
+%%
+%% - Font: "kerkis" or "artemisia"
+%%      - "kerkis"
+%%      - "artemisia"
 %%
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -44,17 +49,22 @@
 \newcommand\filedate{2022/12/20}
 \ProvidesClass{ntua-ece-thesis}[\filedate\space v\fileversion\space NTUA ECE Thesis class.]
 
-% Defining creativecommons as 0 and non-profit license as 1
-\newcommand{\@license}{0}
-\DeclareOption{noprofituse}{\renewcommand{\@license}{1}}
-\DeclareOption{creativecommons}{\renewcommand{\@license}{0}}
+% Defining licence type
+\newcommand{\@license}{creativecommons}
+\DeclareOption{nonprofituse}{\renewcommand{\@license}{nonprofituse}}
+\DeclareOption{creativecommons}{\renewcommand{\@license}{creativecommons}}
 
 % Defining bibliography style
 \newcommand{\@bibstyle}{apa}
 \DeclareOption{apa}{\renewcommand{\@bibstyle}{apa}}
 \DeclareOption{ieee}{\renewcommand{\@bibstyle}{ieee}}
-\ProcessOptions\relax
 
+% Defining font family
+\newcommand{\@fontface}{kerkis}
+\DeclareOption{kerkis}{\renewcommand{\@fontface}{kerkis}}
+\DeclareOption{artemisia}{\renewcommand{\@fontface}{artemisia}}
+
+\ProcessOptions\relax
 
 \LoadClass[11pt, twoside, a4paper]{report}
 
@@ -108,12 +118,23 @@
 %% Fonts
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\RequirePackage[LGR, T1]{fontenc} % Set the font (output) encodings
+\ifdefstring{\@fontface}{kerkis}{%
+    \RequirePackage{kerkis}
+    \RequirePackage[T1]{fontenc} % Set the font (output) encodings
 
-\RequirePackage{substitutefont}
 
-% Serif
-\substitutefont{LGR}{\rmdefault}{artemisia}
+    % Kerkis does not have a copyright symbol
+    \NewCommandCopy{\oldcopyright}{\copyright}
+    \renewcommand{\copyright}{{\fontfamily{cmr}\selectfont\oldcopyright}}
+}{}
+
+\ifdefstring{\@fontface}{artemisia}{%
+    \RequirePackage[LGR, T1]{fontenc} % Set the font (output) encodings
+    \RequirePackage{substitutefont}
+
+    % Serif
+    \substitutefont{LGR}{\rmdefault}{artemisia}
+}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Images
@@ -383,18 +404,22 @@
         \textbf{\@author} \\
         Διπλωματούχος Ηλεκτρολόγος Μηχανικός και Μηχανικός Υπολογιστών Ε.Μ.Π. \\
         \vspace{30ex}
-        \small \copyright \hspace{0.5em} \@author, \@submissionyear.\\
+        \small \en{\copyright} \hspace{0.5em} \@author, \@submissionyear.\\
     \end{FlushLeft}
 
     \vspace{5ex}
 
     \begin{justify}
-        \ifnum \@license=0
+        \ifdefstring{\@licence}{creativecommons}{%
             \noindent \@creativecommons
-
-        \else
+        }{%
+            % Do nothing
+        }
+        \ifdefstring{\@licence}{nonprofituse}{%
             \noindent \@nonprofituse
-        \fi
+        }{%
+            % Do nothing
+        }
     \end{justify}
 
     \begin{justify}
